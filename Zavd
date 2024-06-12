@@ -1,0 +1,46 @@
+#include <iostream>
+#include <iomanip>
+#include <cstdlib> // для rand() і srand()
+#include <ctime> // для time()
+
+using namespace std;
+
+int main() {
+    srand(time(0)); // ініціалізація генератора випадкових чисел
+    const int rows = 5;
+    const int cols = 5;
+    int matrix[rows][cols];
+    int counts[rows] = {0};
+    double averages[rows] = {0.0};
+
+    // Заповнення матриці випадковими числами і вивід матриці
+    cout << "Матриця:" << endl;
+    for (int i = 0; i < rows; i++) {
+        double sum = 0;
+        bool hasZero = false;
+        for (int j = 0; j < cols; j++) {
+            matrix[i][j] = rand() % 21 - 10; // числа від -10 до 10
+            cout << setw(4) << matrix[i][j];
+            sum += matrix[i][j];
+            if (matrix[i][j] == 0) hasZero = true;
+            if (matrix[i][j] % 5 == 0) counts[i]++;
+        }
+        averages[i] = sum / cols;
+        cout << endl;
+        if (!hasZero) counts[i] = 0; // Якщо немає нулів, кількість кратних 5 не рахуємо
+    }
+
+    // Вивід кількості чисел кратних 5 в рядках з нульовими елементами
+    cout << "\nКількість чисел, кратних 5 в рядках з нульовими елементами:" <<endl;
+    for (int i = 0; i < rows; i++) {
+        cout << "Рядок " << i + 1 << ": " << counts[i] << endl;
+    }
+
+    // Вивід середніх значень по рядках
+    cout << "\nСередні арифметичні по рядках:" << endl;
+    for (int i = 0; i < rows; i++) {
+        cout << "Рядок " << i + 1 << ": " << fixed << setprecision(2) << averages[i] << endl;
+    }
+
+    return 0;
+}
